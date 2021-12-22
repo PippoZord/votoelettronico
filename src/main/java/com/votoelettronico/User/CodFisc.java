@@ -158,7 +158,7 @@ public class CodFisc {
         if (Integer.parseInt(str.substring(0, 2)) != data.getYear() % 100)
             return false;
         if (sex.equals("F")) {
-            if (Integer.parseInt(str.substring(3, 5)) != (data.getDayOfMonth() % 100+40) + 40)
+            if (Integer.parseInt(str.substring(3, 5)) != (data.getDayOfMonth() % 100+40))
                 return false;
         } else {
             if (Integer.parseInt(str.substring(3,5))!=data.getDayOfMonth()%100){
