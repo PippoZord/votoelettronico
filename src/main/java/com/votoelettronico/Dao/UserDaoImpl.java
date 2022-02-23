@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao{
             myResultSet.next();
             return new Elettore(myResultSet.getString("nome"), myResultSet.getString("cognome"), new CodFisc(myResultSet.getString("codFiscale")), myResultSet.getDate("data").toLocalDate(),myResultSet.getString("sex").charAt(0), myResultSet.getString("password"), myResultSet.getString("luogoDiNascita"),myResultSet.getString("nazione"), new Email(myResultSet.getString("email")), myResultSet.getString("telefono"), myResultSet.getBoolean("votato"));
         } catch (Exception e) {
-            throw new IllegalArgumentException("codFIscale does not exist");
+            throw new IllegalArgumentException("codFiscale does not exist");
         }
     }
 
