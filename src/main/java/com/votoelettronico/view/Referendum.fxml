@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.ReferendumController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.ReferendumController">
    <top>
       <Label alignment="CENTER" prefHeight="124.0" prefWidth="1129.0" text="CREA REFERENDUM" BorderPane.alignment="TOP_RIGHT">
          <font>
@@ -91,16 +91,21 @@
       </VBox>
    </center>
    <bottom>
-      <HBox prefHeight="130.0" prefWidth="1036.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="149.0" prefWidth="1036.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="back" mnemonicParsing="false" onAction="#handleBack" prefHeight="44.0" prefWidth="110.0" text="INDIETRO">
                <HBox.margin>
-                  <Insets left="300.0" />
+                  <Insets left="200.0" />
                </HBox.margin>
             </Button>
+            <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="449.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
             <Button fx:id="create" mnemonicParsing="false" onAction="#handleCreate" prefHeight="44.0" prefWidth="110.0" text="CREA">
                <HBox.margin>
-                  <Insets left="250.0" />
+                  <Insets />
                </HBox.margin>
             </Button>
          </children>
