@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.LoginElettoreController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.LoginElettoreController">
    <top>
       <Label alignment="CENTER" prefHeight="98.0" prefWidth="363.0" text=" LOGIN ELETTORE" BorderPane.alignment="CENTER">
          <font>
@@ -62,7 +62,7 @@
                         <Insets left="50.0" top="22.0" />
                      </HBox.margin>
                   </Button>
-                  <Label fx:id="labelError" alignment="CENTER" prefHeight="83.0" prefWidth="128.0" text="">
+                  <Label fx:id="labelError" alignment="CENTER" prefHeight="83.0" prefWidth="284.0" text="">
                      <font>
                         <Font size="17.0" />
                      </font>

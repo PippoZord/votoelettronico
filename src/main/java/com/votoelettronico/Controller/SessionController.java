@@ -63,7 +63,7 @@ public class SessionController {
 
     @FXML
     void handleReferendum(ActionEvent event) throws IOException {
-        App.navigate("Referendum");
+        App.navigate("CreateReferendum");
     }
 
     @FXML

@@ -6,10 +6,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
+import Voto.Referendum;
 import Voto.Voto;
 
-public abstract class SessionDaoImpl {
+public class SessionDaoImpl {
     
     protected Connection myConnection;
 
@@ -23,11 +25,14 @@ public abstract class SessionDaoImpl {
     protected void createSession(Voto voto) throws SQLException {
         try{
             checkData(voto);
-            PreparedStatement prepStat = myConnection.prepareStatement("insert into Sessioni values(?,?,?,?);");
+            PreparedStatement prepStat = myConnection.prepareStatement("insert into Sessioni values(?,?,?,?,?);");
             prepStat.setString(1, voto.titolo);
             prepStat.setString(2, voto.descrizione);
             prepStat.setDate(3, Date.valueOf(voto.inizio));
             prepStat.setDate(4, Date.valueOf(voto.fine));
+            if (voto instanceof Referendum) {
+                prepStat.setString(5, "Referendum");
+            }
             prepStat.executeUpdate();
         } catch (Exception e){
             throw new IllegalArgumentException();
@@ -44,5 +49,25 @@ public abstract class SessionDaoImpl {
         prepStat.setDate(6, Date.valueOf(voto.fine));
         ResultSet set = prepStat.executeQuery();
         if (set.next()) throw new IllegalArgumentException();
+    }
+
+
+    public String getSessioniActive() throws SQLException{
+        LocalDate now = LocalDate.now();
+        PreparedStatement prepStat = myConnection.prepareStatement("select * from Sessioni where (inizio <= ? and fine >= ?);");
+        prepStat.setDate(1, Date.valueOf(now));
+        prepStat.setDate(2, Date.valueOf(now));
+        ResultSet set = prepStat.executeQuery();
+        if (set.next()){
+            switch (set.getString(5)) {
+                case "Referendum":
+                    System.out.println("Referendum");
+                    break;
+                default:
+                    break;
+          }  
+        }
+
+        return "Referendum";
     }
 }

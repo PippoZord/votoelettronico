@@ -2,6 +2,9 @@ package com.votoelettronico;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
+import com.votoelettronico.User.User;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +13,7 @@ import javafx.stage.Stage;
 
 public class App extends Application{
     private static Scene scene;
+    private static User user;
     
     public static void main( String[] args ) throws SQLException{
         launch(args);
@@ -36,4 +40,14 @@ public class App extends Application{
         Parent root = loader.load();
         return root;
     }
+
+    public static void setUser(User u){
+        user = u;
+        System.out.println(user);
+    }
+
+    public static User getUSer(){
+        return user;
+    }
+
 }

@@ -1,6 +1,4 @@
 package Voto;
-
-import java.sql.PreparedStatement;
 import java.time.LocalDate;
 
 public abstract class Voto {

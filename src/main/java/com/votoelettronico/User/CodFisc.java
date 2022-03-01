@@ -95,7 +95,7 @@ public class CodFisc {
                 }
             }
 
-            if (iControllo < 2) {
+            if (iControllo <= 2) {
                 for (char c : nome.toUpperCase().toCharArray()) {
                     if (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') {
                         if (c != treLettere.charAt(iControllo)) {

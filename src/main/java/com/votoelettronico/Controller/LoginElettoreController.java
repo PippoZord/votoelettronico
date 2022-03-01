@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import com.google.common.hash.Hashing;
 import com.votoelettronico.App;
+import com.votoelettronico.Dao.SessionDaoImpl;
 import com.votoelettronico.Dao.UserDao;
 import com.votoelettronico.Dao.UserDaoImpl;
 import com.votoelettronico.User.CodFisc;
@@ -54,12 +55,15 @@ public class LoginElettoreController {
         try {
             UserDao u = new UserDaoImpl();
             Elettore e = u.getElettore(new CodFisc(codFisc.getText().toUpperCase()));
-            System.out.println(e);
             if (!e.getPassword().equals(HashPassword))
                 throw new IllegalArgumentException();
-            else
-                labelError.setText("BENVENUTO");
+            else{
+                App.setUser(e);
+                App.navigate("HomeViewElettore");
+            }
+                
         } catch (Exception e) {
+            e.printStackTrace();
             labelError.setText("ERRORE");
         }
     }

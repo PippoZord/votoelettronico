@@ -52,7 +52,6 @@ public class ReferendumController {
 
     @FXML
     void handleCreate(ActionEvent event) throws SQLException, InterruptedException {
-        Thread.sleep(1000);
         if (start.getValue().compareTo(end.getValue()) >= 0){
             label.setText("ERRORE IMPOSTAZIONE DATA");
         } else {
