@@ -46,7 +46,7 @@ public class App extends Application{
         System.out.println(user);
     }
 
-    public static User getUSer(){
+    public static User getUser(){
         return user;
     }
 

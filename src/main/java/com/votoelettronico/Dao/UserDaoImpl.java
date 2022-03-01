@@ -89,5 +89,21 @@ public class UserDaoImpl implements UserDao{
     }
 
 
+    public void vote(Elettore e) throws SQLException{
+        PreparedStatement prepStat = myConnection.prepareStatement("update Elettore set votato = 1 where codFiscale = ?;");
+        prepStat.setString(1, e.getCodFisc().getCodFisc());
+        prepStat.executeUpdate();
+    }
+
+    public boolean hasVoted(Elettore e) throws SQLException {
+        PreparedStatement prepStat = myConnection.prepareStatement("select votato from Elettore where codFiscale = ?;");
+        prepStat.setString(1, e.getCodFisc().getCodFisc());
+        ResultSet set = prepStat.executeQuery();
+        if (set.next() && set.getBoolean(1)==true){
+            return true;
+        }   
+        return false;
+    }
+
     
 }

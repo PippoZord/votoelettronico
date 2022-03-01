@@ -2,6 +2,10 @@ package com.votoelettronico.Dao;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import com.votoelettronico.App;
+import com.votoelettronico.User.Elettore;
+import com.votoelettronico.User.User;
+
 import Voto.Referendum;
 
 
@@ -25,14 +29,20 @@ public class ReferendumDaoImpl extends SessionDaoImpl{
     }
 
     public void insertVote(String s) throws SQLException{
-        if (s.equals("SI")){
-            PreparedStatement prepStat = myConnection.prepareStatement("update Referendum set si = si+1 where titolo = ?;");
-            prepStat.setString(1, this.getTitleActiveSession());
-            prepStat.executeUpdate();
-        } else if (s.equals("NO")){
-            PreparedStatement prepStat = myConnection.prepareStatement("update Referendum set no = no+1 where titolo = ?;");
-            prepStat.setString(1, this.getTitleActiveSession());
-            prepStat.executeUpdate();
+        User e = App.getUser();
+        if (e instanceof Elettore) {
+            Elettore el = (Elettore) e;
+            if (s.equals("SI") && !el.hasVoted()){
+                PreparedStatement prepStat = myConnection.prepareStatement("update Referendum set si = si+1 where titolo = ?;");
+                prepStat.setString(1, this.getTitleActiveSession());
+                prepStat.executeUpdate();
+                el.vote();
+            } else if (s.equals("NO") && !el.hasVoted()){
+                PreparedStatement prepStat = myConnection.prepareStatement("update Referendum set no = no+1 where titolo = ?;");
+                prepStat.setString(1, this.getTitleActiveSession());
+                prepStat.executeUpdate();
+                el.vote();
+            }
         }
     }
 }

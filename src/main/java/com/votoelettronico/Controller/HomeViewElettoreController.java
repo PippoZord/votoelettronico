@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 import com.votoelettronico.App;
 import com.votoelettronico.Dao.SessionDaoImpl;
+import com.votoelettronico.User.Elettore;
+import com.votoelettronico.User.User;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,14 +42,22 @@ public class HomeViewElettoreController {
 
     @FXML
     void handleVote(ActionEvent event) throws SQLException, IOException {
-        try {
-            SessionDaoImpl s = new SessionDaoImpl();
-            switch (s.type()){
-                case "Referendum":
-                    App.navigate("VoteReferendum");
+        User u = App.getUser();
+        if (u instanceof Elettore){
+            Elettore el = (Elettore) u;
+            if (!el.hasVoted()){
+                try {
+                    SessionDaoImpl s = new SessionDaoImpl();
+                    switch (s.type()){
+                        case "Referendum":
+                            App.navigate("VoteReferendum");
+                    }
+                }catch (Exception e){
+                    label.setText("NESSUNA VOTAZIONE IN CORSO");
+                }
+            } else {
+                label.setText("HAI GIÀ VOTATO PER QUESTA SESSIONE");
             }
-        }catch (Exception e){
-            label.setText("NESSUNA VOTAZIONE IN CORSO");
         }
     }
     
@@ -57,7 +67,7 @@ public class HomeViewElettoreController {
         assert label != null : "fx:id=\"label\" was not injected: check your FXML file 'HomeViewElettore.fxml'.";
         assert labelTitle != null : "fx:id=\"labelTitle\" was not injected: check your FXML file 'HomeViewElettore.fxml'.";
         assert vote != null : "fx:id=\"vote\" was not injected: check your FXML file 'HomeViewElettore.fxml'.";
-        labelTitle.setText("CIAO " + App.getUSer().getName());
+        labelTitle.setText("CIAO " + App.getUser().getName());
     }
 
 }

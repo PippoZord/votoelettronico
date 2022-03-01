@@ -1,5 +1,8 @@
 package com.votoelettronico.User;
+import java.sql.SQLException;
 import java.time.LocalDate;
+
+import com.votoelettronico.Dao.UserDaoImpl;
 
 public class Elettore extends User {
 
@@ -22,13 +25,16 @@ public class Elettore extends User {
         return this.telefono;
     }
 
-    public boolean hasVoted(){
-        return hasVoted;
+    public boolean hasVoted() throws SQLException{
+        UserDaoImpl u = new UserDaoImpl();
+        if (u.hasVoted(this))
+            return true;
+        return false;
     }
 
-    public void vote(){
-        if (hasVoted == false);
-            hasVoted = true;
+    public void vote() throws SQLException{
+        UserDaoImpl u = new UserDaoImpl();
+        u.vote(this);
     }
 
     @Override
