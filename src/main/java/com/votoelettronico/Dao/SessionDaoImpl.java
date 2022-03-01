@@ -15,7 +15,7 @@ import Voto.Voto;
 public class SessionDaoImpl {
     
     protected Connection myConnection;
-    private ResultSet activeSession;
+    protected ResultSet activeSession;
 
     public SessionDaoImpl() throws SQLException{
         String url = "jdbc:mysql://localhost:3306/voto";

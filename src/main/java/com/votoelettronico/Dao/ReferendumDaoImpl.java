@@ -23,4 +23,16 @@ public class ReferendumDaoImpl extends SessionDaoImpl{
             throw new IllegalArgumentException();
         }
     }
+
+    public void insertVote(String s) throws SQLException{
+        if (s.equals("SI")){
+            PreparedStatement prepStat = myConnection.prepareStatement("update Referendum set si = si+1 where titolo = ?;");
+            prepStat.setString(1, this.getTitleActiveSession());
+            prepStat.executeUpdate();
+        } else if (s.equals("NO")){
+            PreparedStatement prepStat = myConnection.prepareStatement("update Referendum set no = no+1 where titolo = ?;");
+            prepStat.setString(1, this.getTitleActiveSession());
+            prepStat.executeUpdate();
+        }
+    }
 }

@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import com.votoelettronico.Dao.ReferendumDaoImpl;
 import com.votoelettronico.Dao.SessionDaoImpl;
 
 import javafx.event.ActionEvent;
@@ -52,8 +53,13 @@ public class VoteReferendumController {
     }
 
     @FXML
-    void handleVote(ActionEvent event) {
-
+    void handleVote(ActionEvent event) throws SQLException {
+        ReferendumDaoImpl r = new ReferendumDaoImpl();
+        if (yes.isSelected()) {
+            r.insertVote("SI");
+        } else if (no.isSelected()){
+            r.insertVote("NO");
+        }
     }
 
     @FXML

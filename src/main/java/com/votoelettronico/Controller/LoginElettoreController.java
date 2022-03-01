@@ -62,7 +62,6 @@ public class LoginElettoreController {
             }
                 
         } catch (Exception e) {
-            e.printStackTrace();
             labelError.setText("ERRORE");
         }
     }
