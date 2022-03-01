@@ -40,14 +40,17 @@ public class HomeViewElettoreController {
 
     @FXML
     void handleVote(ActionEvent event) throws SQLException, IOException {
-        SessionDaoImpl s = new SessionDaoImpl();
-        switch (s.getSessioniActive()){
-            case "Referendum":
-                App.navigate("VoteReferendum");
-            default:
-                label.setText("NESSUNA VOTAZIONE IN CORSO");    
+        try {
+            SessionDaoImpl s = new SessionDaoImpl();
+            switch (s.type()){
+                case "Referendum":
+                    App.navigate("VoteReferendum");
+            }
+        }catch (Exception e){
+            label.setText("NESSUNA VOTAZIONE IN CORSO");
         }
     }
+    
     @FXML
     void initialize() {
         assert exit != null : "fx:id=\"exit\" was not injected: check your FXML file 'HomeViewElettore.fxml'.";

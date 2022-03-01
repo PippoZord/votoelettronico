@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Objects;
 
 import Voto.Referendum;
 import Voto.Voto;
@@ -14,12 +15,14 @@ import Voto.Voto;
 public class SessionDaoImpl {
     
     protected Connection myConnection;
+    private ResultSet activeSession;
 
     public SessionDaoImpl() throws SQLException{
         String url = "jdbc:mysql://localhost:3306/voto";
         String root = "root";
         String pass = "root";
         myConnection = DriverManager.getConnection(url, root, pass);
+        getActiveSession();
     }
 
     protected void createSession(Voto voto) throws SQLException {
@@ -52,21 +55,36 @@ public class SessionDaoImpl {
     }
 
 
-    public String getSessioniActive() throws SQLException{
-        LocalDate now = LocalDate.now();
-        PreparedStatement prepStat = myConnection.prepareStatement("select * from Sessioni where (inizio <= ? and fine >= ?);");
-        prepStat.setDate(1, Date.valueOf(now));
-        prepStat.setDate(2, Date.valueOf(now));
-        ResultSet set = prepStat.executeQuery();
-        if (set.next()){
-            switch (set.getString(5)) {
-                case "Referendum":
-                    return "Referendum";
-                default:
-                    break;
-          }  
+    private void getActiveSession() throws SQLException{
+        try {
+            LocalDate now = LocalDate.now();
+            PreparedStatement prepStat = myConnection.prepareStatement("select * from Sessioni where (inizio <= ? and fine >= ?);");
+            prepStat.setDate(1, Date.valueOf(now));
+            prepStat.setDate(2, Date.valueOf(now));
+            activeSession = prepStat.executeQuery();
+            activeSession.next();
+        } catch (Exception e) {
+            throw new IllegalArgumentException();
         }
+    }
 
-        return "";
+    public String getTitleActiveSession() throws SQLException {
+        Objects.requireNonNull("Nessuna Votazione");
+        return activeSession.getString(1);
+    }
+
+    public String getDescriptionActiveSession() throws SQLException {
+        Objects.requireNonNull("Nessuna Descrizione");
+        return activeSession.getString(2);
+    }
+
+    public String getTime() throws SQLException {
+        Objects.requireNonNull("Nessuna Descrizione");
+        return activeSession.getDate(3) + " " + activeSession.getDate(4);
+    }
+    
+    public String type() throws SQLException {
+        Objects.requireNonNull("Nessuna Descrizione");
+        return activeSession.getString(5);
     }
 }
