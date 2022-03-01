@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 
 import com.google.common.hash.Hashing;
 import com.votoelettronico.App;
-import com.votoelettronico.Dao.SessionDaoImpl;
 import com.votoelettronico.Dao.UserDao;
 import com.votoelettronico.Dao.UserDaoImpl;
 import com.votoelettronico.User.CodFisc;

@@ -61,13 +61,12 @@ public class SessionDaoImpl {
         if (set.next()){
             switch (set.getString(5)) {
                 case "Referendum":
-                    System.out.println("Referendum");
-                    break;
+                    return "Referendum";
                 default:
                     break;
           }  
         }
 
-        return "Referendum";
+        return "";
     }
 }

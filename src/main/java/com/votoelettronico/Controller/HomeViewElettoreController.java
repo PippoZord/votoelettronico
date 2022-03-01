@@ -1,10 +1,14 @@
 package com.votoelettronico.Controller;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import com.votoelettronico.App;
+import com.votoelettronico.Dao.SessionDaoImpl;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,14 +28,33 @@ public class HomeViewElettoreController {
     private Label label;
 
     @FXML
+    private Label labelTitle;
+
+    @FXML
     private Button vote;
 
+    @FXML
+    void handleExit(ActionEvent event) throws IOException {
+        App.navigate("LoginElettore");
+    }
+
+    @FXML
+    void handleVote(ActionEvent event) throws SQLException, IOException {
+        SessionDaoImpl s = new SessionDaoImpl();
+        switch (s.getSessioniActive()){
+            case "Referendum":
+                App.navigate("VoteReferendum");
+            default:
+                label.setText("NESSUNA VOTAZIONE IN CORSO");    
+        }
+    }
     @FXML
     void initialize() {
         assert exit != null : "fx:id=\"exit\" was not injected: check your FXML file 'HomeViewElettore.fxml'.";
         assert label != null : "fx:id=\"label\" was not injected: check your FXML file 'HomeViewElettore.fxml'.";
+        assert labelTitle != null : "fx:id=\"labelTitle\" was not injected: check your FXML file 'HomeViewElettore.fxml'.";
         assert vote != null : "fx:id=\"vote\" was not injected: check your FXML file 'HomeViewElettore.fxml'.";
-        label.setText(App.getUSer().getName());
+        labelTitle.setText("CIAO " + App.getUSer().getName());
     }
 
 }
