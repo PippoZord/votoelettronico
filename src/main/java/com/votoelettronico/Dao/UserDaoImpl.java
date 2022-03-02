@@ -1,5 +1,6 @@
 package com.votoelettronico.Dao;
 import java.sql.*;
+import java.util.Objects;
 
 import com.votoelettronico.User.CodFisc;
 import com.votoelettronico.User.Elettore;
@@ -7,11 +8,20 @@ import com.votoelettronico.User.Email;
 import com.votoelettronico.User.Scrutinatore;
 import com.votoelettronico.User.User;
 
-
+/**
+ * OVERVIEW: Questa classe implementa l'interfaccia UserDao e consente la gestione degli utenti, Scrutinatore ed Elettore, con al DBMS 'voto'
+ *           Istanze immutabili
+ */
 public class UserDaoImpl implements UserDao{
 
+    //CAMPI
+    /**Rappresenta la Connesione al DBMS 'voto'*/
     private Connection myConnection;
     
+    /**
+     * 
+     * @throws SQLException se ho un errore di accesso al DBMS
+     */
     public UserDaoImpl() throws SQLException{
         String url = "jdbc:mysql://localhost:3306/voto";
         String root = "root";
@@ -21,30 +31,29 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public Elettore getElettore(CodFisc codFisc) throws SQLException {      
-        try  { 
-            PreparedStatement prepStat = myConnection.prepareStatement("select * from Elettore where codFiscale = ?");
-            prepStat.setString(1, sqlEscapeInjection(codFisc.getCodFisc()));
-            ResultSet myResultSet =  prepStat.executeQuery();
-            myResultSet.next();
-            return new Elettore(myResultSet.getString("nome"), myResultSet.getString("cognome"), new CodFisc(myResultSet.getString("codFiscale")), myResultSet.getDate("data").toLocalDate(),myResultSet.getString("sex").charAt(0), myResultSet.getString("password"), myResultSet.getString("luogoDiNascita"),myResultSet.getString("nazione"), new Email(myResultSet.getString("email")), myResultSet.getString("telefono"), myResultSet.getBoolean("votato"));
-        } catch (Exception e) {
-            throw new IllegalArgumentException("codFiscale does not exist");
-        }
+        PreparedStatement prepStat = myConnection.prepareStatement("select * from Elettore where codFiscale = ?");
+        prepStat.setString(1, sqlEscapeInjection(codFisc.getCodFisc()));
+        ResultSet myResultSet =  prepStat.executeQuery();
+        myResultSet.next();
+        return new Elettore(myResultSet.getString("nome"), myResultSet.getString("cognome"), new CodFisc(myResultSet.getString("codFiscale")), myResultSet.getDate("data").toLocalDate(),myResultSet.getString("sex").charAt(0), myResultSet.getString("password"), myResultSet.getString("luogoDiNascita"),myResultSet.getString("nazione"), new Email(myResultSet.getString("email")), myResultSet.getString("telefono"), myResultSet.getBoolean("votato"));
     }
 
     @Override
     public Scrutinatore getScrutinatore(CodFisc codFisc) throws SQLException {
-        try {
-            PreparedStatement prepStat = myConnection.prepareStatement("select * from Scrutinatore where codFiscale = ?");
-            prepStat.setString(1, sqlEscapeInjection(codFisc.getCodFisc()));
-            ResultSet myResultSet =  prepStat.executeQuery();
-            myResultSet.next();
-            return new Scrutinatore(myResultSet.getString("nome"), myResultSet.getString("cognome"), new CodFisc(myResultSet.getString("codFiscale")), myResultSet.getDate("data").toLocalDate(), myResultSet.getString("sex").charAt(0), myResultSet.getString("nascita"), myResultSet.getString("nazione"), myResultSet.getString("password"));
-        } catch (Exception e){
-            throw new IllegalArgumentException("codFiscale does not exist");
-        }
+        PreparedStatement prepStat = myConnection.prepareStatement("select * from Scrutinatore where codFiscale = ?");
+        prepStat.setString(1, sqlEscapeInjection(codFisc.getCodFisc()));
+        ResultSet myResultSet =  prepStat.executeQuery();
+        myResultSet.next();
+        return new Scrutinatore(myResultSet.getString("nome"), myResultSet.getString("cognome"), new CodFisc(myResultSet.getString("codFiscale")), myResultSet.getDate("data").toLocalDate(), myResultSet.getString("sex").charAt(0), myResultSet.getString("nascita"), myResultSet.getString("nazione"), myResultSet.getString("password"));
     }
-
+    
+    
+    /**
+     * Consente di evitare le sql injection modificando str
+     * 
+     * @param str non NULL e str.length > 0 altriemnti sollevo un'eccezione di tipo IllegalArgumentExcpetion
+     * @return str modificata per evitare sql injection
+     */
     private String sqlEscapeInjection(String str) {
         String data = null;
         if (str != null && str.length() > 0) {
@@ -57,6 +66,8 @@ public class UserDaoImpl implements UserDao{
             str = str.replace("\\x1a", "\\Z");
             str = str.replace(";", "\\Z");
             data = str;
+        } else {
+            throw new IllegalArgumentException("str non può essere NULL");
         }
         return data;
     }
@@ -88,14 +99,17 @@ public class UserDaoImpl implements UserDao{
         prepStat.executeUpdate();
     }
 
-
+    @Override
     public void vote(Elettore e) throws SQLException{
+        Objects.requireNonNull(e, "e non può essere NULL");
         PreparedStatement prepStat = myConnection.prepareStatement("update Elettore set votato = 1 where codFiscale = ?;");
         prepStat.setString(1, e.getCodFisc().getCodFisc());
         prepStat.executeUpdate();
     }
 
+    @Override
     public boolean hasVoted(Elettore e) throws SQLException {
+        Objects.requireNonNull(e, "e Non può essere NULL");
         PreparedStatement prepStat = myConnection.prepareStatement("select votato from Elettore where codFiscale = ?;");
         prepStat.setString(1, e.getCodFisc().getCodFisc());
         ResultSet set = prepStat.executeQuery();

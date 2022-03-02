@@ -43,8 +43,7 @@ public class SessionDaoImpl {
 
     /**
      * Accede alla tabella 'Sessioni' del DBMS 'voto' ed associa ad activeSession la
-     * sessione attiva
-     * al momento dell'accesso al sistema.
+     * sessione attiva al momento dell'accesso al sistema.
      * 
      * @throws SQLException se ho un errore in accesso al DBMS
      */
