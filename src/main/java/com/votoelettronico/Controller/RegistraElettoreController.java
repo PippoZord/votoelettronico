@@ -102,7 +102,6 @@ public class RegistraElettoreController {
             label.setText("REGISTRAZIONE AVVENUTA CON SUCCESSO");
         } catch (Exception e){
             label.setText("ERRORE DI REGISTRAZIONE. RICONTROLLA I PARAMETRI.");
-            e.printStackTrace();
         }
         
     }
