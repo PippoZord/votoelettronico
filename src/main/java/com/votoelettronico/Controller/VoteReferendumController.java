@@ -1,9 +1,11 @@
 package com.votoelettronico.Controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import com.votoelettronico.App;
 import com.votoelettronico.Dao.ReferendumDaoImpl;
 import com.votoelettronico.Dao.SessionDaoImpl;
 
@@ -43,8 +45,8 @@ public class VoteReferendumController {
     private CheckBox yes;
 
     @FXML
-    void handleBack(ActionEvent event) {
-
+    void handleBack(ActionEvent event) throws IOException {
+        App.navigate("HomeViewElettore");
     }
 
     @FXML
@@ -54,11 +56,17 @@ public class VoteReferendumController {
 
     @FXML
     void handleVote(ActionEvent event) throws SQLException {
-        ReferendumDaoImpl r = new ReferendumDaoImpl();
-        if (yes.isSelected()) {
-            r.insertVote("SI");
-        } else if (no.isSelected()){
-            r.insertVote("NO");
+        try{
+            ReferendumDaoImpl r = new ReferendumDaoImpl();
+            if (yes.isSelected()) 
+                r.insertVote("SI");
+            else if (no.isSelected())
+                r.insertVote("NO");
+            Thread.sleep(500);
+            message.setText("VOTAZIONE REGISTRATA");
+            vote.setDisable(true); 
+        } catch (Exception e){
+            message.setText("ERRORE NELLA VOTAZIONE. RIPROVA");
         }
     }
 

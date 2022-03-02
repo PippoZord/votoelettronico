@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.HomeViewElettoreController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.HomeViewElettoreController">
    <top>
       <Label fx:id="labelTitle" alignment="CENTER" prefHeight="124.0" prefWidth="367.0" text="CIAO" BorderPane.alignment="CENTER">
          <font>
@@ -21,12 +21,12 @@
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="exit" mnemonicParsing="false" onAction="#handleExit" prefHeight="52.0" prefWidth="116.0" text="ESCI">
+            <Button fx:id="exit" mnemonicParsing="false" onAction="#handleExit" prefHeight="41.0" prefWidth="116.0" text="ESCI">
                <HBox.margin>
                   <Insets left="300.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="vote" mnemonicParsing="false" onAction="#handleVote" prefHeight="52.0" prefWidth="116.0" text="VOTA">
+            <Button fx:id="vote" mnemonicParsing="false" onAction="#handleVote" prefHeight="41.0" prefWidth="116.0" text="VOTA">
                <HBox.margin>
                   <Insets left="200.0" />
                </HBox.margin>

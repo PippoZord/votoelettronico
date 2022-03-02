@@ -42,6 +42,8 @@ public class ReferendumDaoImpl extends SessionDaoImpl{
                 prepStat.setString(1, this.getTitleActiveSession());
                 prepStat.executeUpdate();
                 el.vote();
+            } else {
+                throw new IllegalArgumentException();
             }
         }
     }

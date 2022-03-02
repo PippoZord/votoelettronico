@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.VoteReferendumController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.VoteReferendumController">
    <top>
       <Label fx:id="title" alignment="CENTER" prefHeight="158.0" prefWidth="724.0" text="REFERENDUM: " BorderPane.alignment="CENTER">
          <font>
@@ -70,7 +70,10 @@
                   <Insets left="240.0" />
                </HBox.margin>
             </Button>
-            <Label fx:id="message" alignment="CENTER" prefHeight="47.0" prefWidth="302.0" />
+            <Label fx:id="message" alignment="CENTER" prefHeight="47.0" prefWidth="302.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
             <Button fx:id="vote" mnemonicParsing="false" onAction="#handleVote" prefHeight="46.0" prefWidth="111.0" text="VOTA">
                <HBox.margin>
                   <Insets />
