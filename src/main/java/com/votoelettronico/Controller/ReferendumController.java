@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 import com.votoelettronico.App;
 import com.votoelettronico.Dao.ReferendumDaoImpl;
 
-import Voto.Referendum;
+import Sessione.Referendum;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -52,17 +52,13 @@ public class ReferendumController {
 
     @FXML
     void handleCreate(ActionEvent event) throws SQLException, InterruptedException {
-        if (start.getValue().compareTo(end.getValue()) >= 0){
-            label.setText("ERRORE IMPOSTAZIONE DATA");
-        } else {
-            try {
-                ReferendumDaoImpl tmp = new ReferendumDaoImpl();
-                Referendum voto = new Referendum(title.getText(), description.getText(), start.getValue(), end.getValue());
-                tmp.createReferendum(voto);
-                label.setText("CREATO");
-            } catch (Exception e){
-                label.setText("ERRORE");
-            }
+        try {
+            ReferendumDaoImpl tmp = new ReferendumDaoImpl();
+            Referendum voto = new Referendum(title.getText(), description.getText(), start.getValue(), end.getValue());
+            tmp.createReferendum(voto);
+            label.setText("CREATO");
+        } catch (Exception e){
+            label.setText("ERRORE");
         }
     }
 

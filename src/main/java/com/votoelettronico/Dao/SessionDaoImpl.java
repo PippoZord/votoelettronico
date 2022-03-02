@@ -9,14 +9,30 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import Voto.Referendum;
-import Voto.Voto;
+import Sessione.Referendum;
+import Sessione.Sessione;
 
+/**
+ * OVERVIEW: Questa classe consente di collegarsi alla DBMS 'voto'.
+ *           L'oggetto SessioneDaoImpl consente inoltre di gestire la tabella 'Sessione' del DBMS:
+ *           Crea una nuova sessione, capisce se una sessione è attiva, restituisce il titolo/descrizione/tipo tempo della sessione attiva.
+ *           Tipo: Referendum, Ordinale, OrdinalePreferenze, Ballottaggio, Categorico
+ *           Istanze immutabili
+ */
 public class SessionDaoImpl {
     
+    //CAMPI
+    /**connesione al DBMS */
     protected Connection myConnection;
+    /**Sessione di voto attiva*/
     protected ResultSet activeSession;
 
+    //COSTRUTTORI
+    /**
+     * Si collega al DBMS voto e associa a activeSession la sessione attiva al giorno corrente in cui si accede al sistema.
+     * 
+     * @throws SQLException se ho un errore in connesione al DBMS
+     */
     public SessionDaoImpl() throws SQLException{
         String url = "jdbc:mysql://localhost:3306/voto";
         String root = "root";
@@ -25,64 +41,107 @@ public class SessionDaoImpl {
         getActiveSession();
     }
 
-    protected void createSession(Voto voto) throws SQLException {
-        try{
-            checkData(voto);
-            PreparedStatement prepStat = myConnection.prepareStatement("insert into Sessioni values(?,?,?,?,?);");
-            prepStat.setString(1, voto.titolo);
-            prepStat.setString(2, voto.descrizione);
-            prepStat.setDate(3, Date.valueOf(voto.inizio));
-            prepStat.setDate(4, Date.valueOf(voto.fine));
-            if (voto instanceof Referendum) {
-                prepStat.setString(5, "Referendum");
-            }
-            prepStat.executeUpdate();
-        } catch (Exception e){
-            throw new IllegalArgumentException();
-        }
+    /**
+     * Accede alla tabella 'Sessioni' del DBMS 'voto' ed associa ad activeSession la
+     * sessione attiva
+     * al momento dell'accesso al sistema.
+     * 
+     * @throws SQLException se ho un errore in accesso al DBMS
+     */
+    private void getActiveSession() throws SQLException {
+        LocalDate now = LocalDate.now();
+        PreparedStatement prepStat = myConnection.prepareStatement("select * from Sessioni where (inizio <= ? and fine >= ?);");
+        prepStat.setDate(1, Date.valueOf(now));
+        prepStat.setDate(2, Date.valueOf(now));
+        activeSession = prepStat.executeQuery();
+        activeSession.next();
     }
 
-    private void checkData(Voto voto) throws SQLException {
+    //METODI
+
+    /**
+     * Dato voto crea una sessione all'interno della tabella 'Sessioni' associando i
+     * valori di di 'sessione' ad ogni campo della tabella.
+     * Al campo tipo della tabella Sessioni associo una stringa in base al tipo di Sessione
+     * 
+     * @param non può essere NULL altrimenti sollevo un'eccezione di tipo
+     *            NullPointerException
+     * @throws SQLException se ho un errore in accesso al DBMS
+     */
+    protected void createSession(Sessione sessione) throws SQLException {
+        Objects.requireNonNull(sessione, "sessione non può Essere null");
+        checkData(sessione);
+        PreparedStatement prepStat = myConnection.prepareStatement("insert into Sessioni values(?,?,?,?,?);");
+        prepStat.setString(1, sessione.titolo);
+        prepStat.setString(2, sessione.descrizione);
+        prepStat.setDate(3, Date.valueOf(sessione.inizio));
+        prepStat.setDate(4, Date.valueOf(sessione.fine));
+        if (sessione instanceof Referendum)
+            prepStat.setString(5, "Referendum");
+        prepStat.executeUpdate();
+    }
+    
+    /**
+     * Controlla se all'interno della tabella 'Sessioni' esiste una sessione che si
+     * interseca con la data di sessione
+     * 
+     * @param sessione non può essere NULLL altrimenti sollevo un'eccezione di tipo
+     *                 NullPointerException
+     * 
+     * @throws SQLExceptionnon se ho un'errore in accesso al DBMS
+     * 
+     * @return false se la data impostata per sessione si sovrappone con almeno una
+     *         sessione all'interno della tabella 'Sessioni'. true altrimenti.
+     */
+    private boolean checkData(Sessione sessione) throws SQLException {
+        Objects.requireNonNull(sessione, "sessione non puuò essere null");
         PreparedStatement prepStat = myConnection.prepareStatement("select * from Sessioni where ((inizio <= ? and fine >= ?) or (inizio <= ? and fine >= ?) or (inizio > ? and fine < ?));");
-        prepStat.setDate(1, Date.valueOf(voto.inizio));
-        prepStat.setDate(2, Date.valueOf(voto.inizio));
-        prepStat.setDate(3, Date.valueOf(voto.fine));
-        prepStat.setDate(4, Date.valueOf(voto.fine));
-        prepStat.setDate(5, Date.valueOf(voto.inizio));
-        prepStat.setDate(6, Date.valueOf(voto.fine));
+        prepStat.setDate(1, Date.valueOf(sessione.inizio));
+        prepStat.setDate(2, Date.valueOf(sessione.inizio));
+        prepStat.setDate(3, Date.valueOf(sessione.fine));
+        prepStat.setDate(4, Date.valueOf(sessione.fine));
+        prepStat.setDate(5, Date.valueOf(sessione.inizio));
+        prepStat.setDate(6, Date.valueOf(sessione.fine));
         ResultSet set = prepStat.executeQuery();
-        if (set.next()) throw new IllegalArgumentException();
+        return !set.next();
     }
 
-
-    private void getActiveSession() throws SQLException{
-        try {
-            LocalDate now = LocalDate.now();
-            PreparedStatement prepStat = myConnection.prepareStatement("select * from Sessioni where (inizio <= ? and fine >= ?);");
-            prepStat.setDate(1, Date.valueOf(now));
-            prepStat.setDate(2, Date.valueOf(now));
-            activeSession = prepStat.executeQuery();
-            activeSession.next();
-        } catch (Exception e) {
-            throw new IllegalArgumentException();
-        }
-    }
-
+    /**
+     * 
+     * @return il titolo della sessione attiva
+     * @throws SQLException se ho un'errore in accesso al DBMS
+     */
     public String getTitleActiveSession() throws SQLException {
-        Objects.requireNonNull("Nessuna Votazione");
+        Objects.requireNonNull(activeSession, "Nessuna Votazione");
         return activeSession.getString(1);
     }
 
+    /**
+     * 
+     * @return la descrizione associata alla sessione attiva
+     * @throws SQLException se ho un'errore in accesso al DBMS
+     */
     public String getDescriptionActiveSession() throws SQLException {
         Objects.requireNonNull("Nessuna Descrizione");
         return activeSession.getString(2);
     }
 
+    /**
+     * 
+     * @return una stringa in cui si evidenziano la data di inizio e di fine della
+     *         sessione attiva
+     * @throws SQLException se ho un'errore in accesso al DBMS
+     */
     public String getTime() throws SQLException {
         Objects.requireNonNull("Nessuna Descrizione");
         return activeSession.getDate(3) + " " + activeSession.getDate(4);
     }
     
+    /**
+     * 
+     * @return il tipo della sessione attiva
+     * @throws SQLException se ho un'errore in accesso al DBMS
+     */
     public String type() throws SQLException {
         Objects.requireNonNull("Nessuna Descrizione");
         return activeSession.getString(5);
