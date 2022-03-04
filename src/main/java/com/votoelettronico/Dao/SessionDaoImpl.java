@@ -69,15 +69,16 @@ public class SessionDaoImpl {
      */
     protected void createSession(Sessione sessione) throws SQLException {
         Objects.requireNonNull(sessione, "sessione non può Essere null");
-        checkData(sessione);
-        PreparedStatement prepStat = myConnection.prepareStatement("insert into Sessioni values(?,?,?,?,?);");
-        prepStat.setString(1, sessione.titolo);
-        prepStat.setString(2, sessione.descrizione);
-        prepStat.setDate(3, Date.valueOf(sessione.inizio));
-        prepStat.setDate(4, Date.valueOf(sessione.fine));
-        if (sessione instanceof Referendum)
-            prepStat.setString(5, "Referendum");
-        prepStat.executeUpdate();
+        if (checkData(sessione)){
+            PreparedStatement prepStat = myConnection.prepareStatement("insert into Sessioni values(?,?,?,?,?);");
+            prepStat.setString(1, sessione.titolo);
+            prepStat.setString(2, sessione.descrizione);
+            prepStat.setDate(3, Date.valueOf(sessione.inizio));
+            prepStat.setDate(4, Date.valueOf(sessione.fine));
+            if (sessione instanceof Referendum)
+                prepStat.setString(5, "Referendum");
+            prepStat.executeUpdate();
+        }
     }
     
     /**
