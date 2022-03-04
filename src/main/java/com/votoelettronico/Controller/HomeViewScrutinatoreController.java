@@ -22,6 +22,9 @@ public class HomeViewScrutinatoreController {
     private Button creaSessione;
 
     @FXML
+    private Button exit;
+
+    @FXML
     private Button gestisciSessione;
 
     @FXML
@@ -34,6 +37,12 @@ public class HomeViewScrutinatoreController {
 
     }
 
+
+    @FXML
+    void handleExit(ActionEvent event) throws IOException {
+        App.navigate("LoginScrutinatore");
+    }
+
     @FXML
     void initialize() {
         assert creaSessione != null
@@ -41,6 +50,7 @@ public class HomeViewScrutinatoreController {
         assert gestisciSessione != null
                 : "fx:id=\"gestisciSessione\" was not injected: check your FXML file 'HomeViewScrutinatore.fxml'.";
 
+        assert exit != null : "fx:id=\"exit\" was not injected: check your FXML file 'HomeViewScrutinatore.fxml'.";
     }
 
 }

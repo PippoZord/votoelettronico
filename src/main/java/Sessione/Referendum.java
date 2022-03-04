@@ -20,8 +20,8 @@ public class Referendum extends Sessione {
      * @param fine        non NULL altrimenti sollevo un'eccezione di tipo
      *                    NullPointerException (vedi super())
      */
-    public Referendum(String titolo, String descrizione, LocalDate inizio, LocalDate fine) {
-        super(titolo, descrizione, inizio, fine);
+    public Referendum(String titolo, String descrizione, LocalDate inizio, LocalDate fine, boolean quorum) {
+        super(titolo, descrizione, inizio, fine, quorum);
     }
 
 }

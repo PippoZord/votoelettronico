@@ -70,13 +70,14 @@ public class SessionDaoImpl {
     protected void createSession(Sessione sessione) throws SQLException {
         Objects.requireNonNull(sessione, "sessione non può Essere null");
         if (checkData(sessione)){
-            PreparedStatement prepStat = myConnection.prepareStatement("insert into sessioni values(?,?,?,?,?);");
+            PreparedStatement prepStat = myConnection.prepareStatement("insert into sessioni values(?,?,?,?,?,?);");
             prepStat.setString(1, sessione.titolo);
             prepStat.setString(2, sessione.descrizione);
             prepStat.setDate(3, Date.valueOf(sessione.inizio));
             prepStat.setDate(4, Date.valueOf(sessione.fine));
             if (sessione instanceof Referendum)
                 prepStat.setString(5, "Referendum");
+            prepStat.setBoolean(6, sessione.quorum);
             prepStat.executeUpdate();
         }
     }
@@ -107,6 +108,7 @@ public class SessionDaoImpl {
     }
 
     /**
+     * Se activeSession = NULL sollevo un'eccezione di tipo NullPointerException
      * 
      * @return il titolo della sessione attiva
      * @throws SQLException se ho un'errore in accesso al DBMS
@@ -117,33 +119,36 @@ public class SessionDaoImpl {
     }
 
     /**
+     * Se activeSession = NULL sollevo un'eccezione di tipo NullPointerException
      * 
      * @return la descrizione associata alla sessione attiva
      * @throws SQLException se ho un'errore in accesso al DBMS
      */
     public String getDescriptionActiveSession() throws SQLException {
-        Objects.requireNonNull("Nessuna Descrizione");
+        Objects.requireNonNull(activeSession, "Nessuna Descrizione");
         return activeSession.getString(2);
     }
 
     /**
+     * Se activeSession = NULL sollevo un'eccezione di tipo NullPointerException
      * 
      * @return una stringa in cui si evidenziano la data di inizio e di fine della
      *         sessione attiva
      * @throws SQLException se ho un'errore in accesso al DBMS
      */
     public String getTime() throws SQLException {
-        Objects.requireNonNull("Nessuna Descrizione");
+        Objects.requireNonNull(activeSession, "Nessuna Descrizione");
         return activeSession.getDate(3) + " " + activeSession.getDate(4);
     }
     
     /**
+     * Se activeSession = NULL sollevo un'eccezione di tipo NullPointerException
      * 
      * @return il tipo della sessione attiva
      * @throws SQLException se ho un'errore in accesso al DBMS
      */
     public String type() throws SQLException {
-        Objects.requireNonNull("Nessuna Descrizione");
+        Objects.requireNonNull(activeSession, "Nessuna Descrizione");
         return activeSession.getString(5);
     }
 }

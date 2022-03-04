@@ -11,6 +11,7 @@ import Sessione.Referendum;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -34,6 +35,9 @@ public class CreateReferendumController {
     private TextArea description;
 
     @FXML
+    private CheckBox quorum;
+
+    @FXML
     private Label label;
 
     @FXML
@@ -54,7 +58,7 @@ public class CreateReferendumController {
     void handleCreate(ActionEvent event) throws SQLException, InterruptedException {
         try {
             ReferendumDaoImpl tmp = new ReferendumDaoImpl();
-            Referendum voto = new Referendum(title.getText(), description.getText(), start.getValue(), end.getValue());
+            Referendum voto = new Referendum(title.getText(), description.getText(), start.getValue(), end.getValue(), quorum.isSelected());
             tmp.createReferendum(voto);
             label.setText("CREATO");
         } catch (Exception e){
@@ -69,6 +73,7 @@ public class CreateReferendumController {
         assert create != null : "fx:id=\"create\" was not injected: check your FXML file 'Referendum.fxml'.";
         assert description != null : "fx:id=\"description\" was not injected: check your FXML file 'Referendum.fxml'.";
         assert end != null : "fx:id=\"end\" was not injected: check your FXML file 'Referendum.fxml'.";
+        assert quorum != null : "fx:id=\"quorum\" was not injected: check your FXML file 'CreateReferendum.fxml'.";
         assert start != null : "fx:id=\"start\" was not injected: check your FXML file 'Referendum.fxml'.";
         assert title != null : "fx:id=\"title\" was not injected: check your FXML file 'Referendum.fxml'.";
         assert label != null : "fx:id=\"label\" was not injected: check your FXML file 'Referendum.fxml'.";

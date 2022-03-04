@@ -7,33 +7,33 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.HomeViewScrutinatoreController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.HomeViewScrutinatoreController">
    <top>
       <Label alignment="CENTER" prefHeight="169.0" prefWidth="1205.0" text="SCEGLI UN'OPZIONE" BorderPane.alignment="CENTER">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
          <BorderPane.margin>
-            <Insets top="190.0" />
+            <Insets top="130.0" />
          </BorderPane.margin>
       </Label>
    </top>
    <center>
       <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#handleGestisciSessione" prefHeight="38.0" prefWidth="164.0" text="GESTISCI SESSIONE">
+            <Button mnemonicParsing="false" onAction="#handleGestisciSessione" prefHeight="38.0" prefWidth="147.0" text="GESTISCI SESSIONE">
                <HBox.margin>
                   <Insets right="60.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#handleCreaSessione" prefHeight="38.0" prefWidth="164.0" text="CREA SESSIONE" />
+            <Button mnemonicParsing="false" onAction="#handleCreaSessione" prefHeight="38.0" prefWidth="147.0" text="CREA SESSIONE" />
          </children>
       </HBox>
    </center>
    <bottom>
-      <Button fx:id="exit" mnemonicParsing="false" onAction="#handleExit" prefHeight="38.0" prefWidth="164.0" text="ESCI" BorderPane.alignment="CENTER">
+      <Button fx:id="exit" mnemonicParsing="false" onAction="#handleExit" prefHeight="38.0" prefWidth="106.0" text="ESCI" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets bottom="200.0" />
+            <Insets bottom="230.0" />
          </BorderPane.margin>
       </Button>
    </bottom>

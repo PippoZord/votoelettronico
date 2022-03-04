@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.VoteReferendumController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.VoteReferendumController">
    <top>
-      <Label fx:id="title" alignment="CENTER" prefHeight="158.0" prefWidth="724.0" text="REFERENDUM: " BorderPane.alignment="CENTER">
+      <Label fx:id="title" alignment="CENTER" prefHeight="158.0" prefWidth="724.0" text="" BorderPane.alignment="CENTER">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
@@ -49,12 +49,17 @@
                <children>
                   <CheckBox fx:id="yes" mnemonicParsing="false" onAction="#handleYes" text="SI">
                      <HBox.margin>
-                        <Insets left="400.0" />
+                        <Insets left="380.0" />
                      </HBox.margin>
                   </CheckBox>
                   <CheckBox fx:id="no" mnemonicParsing="false" onAction="#handleNo" text="NO">
                      <HBox.margin>
-                        <Insets left="140.0" />
+                        <Insets left="70.0" />
+                     </HBox.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="ast" mnemonicParsing="false" onAction="#handleAst" text="ASTENGO">
+                     <HBox.margin>
+                        <Insets left="70.0" />
                      </HBox.margin>
                   </CheckBox>
                </children>

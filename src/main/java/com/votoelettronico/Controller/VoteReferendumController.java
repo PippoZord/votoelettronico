@@ -45,6 +45,9 @@ public class VoteReferendumController {
     private CheckBox yes;
 
     @FXML
+    private CheckBox ast;
+
+    @FXML
     void handleBack(ActionEvent event) throws IOException {
         App.navigate("HomeViewElettore");
     }
@@ -52,6 +55,7 @@ public class VoteReferendumController {
     @FXML
     void handleNo(ActionEvent event) {
         yes.setSelected(false);
+        ast.setSelected(false);
     }
 
     @FXML
@@ -62,23 +66,35 @@ public class VoteReferendumController {
                 r.insertVote("SI");
             else if (no.isSelected())
                 r.insertVote("NO");
-            else
+            else if (ast.isSelected())
                 r.insertVote("AST");
+            else {
+                message.setText("SCEGLI UN'OPZIONE");
+                return;
+            }
             Thread.sleep(500);
             message.setText("VOTAZIONE REGISTRATA");
             vote.setDisable(true); 
         } catch (Exception e){
-            message.setText("ERRORE NELLA VOTAZIONE. RIPROVA");
+            message.setText("ERRORE NELLA VOTAZIONE. CONTROLLA DI AVER SELEZIONATO IL VOTO");
         }
     }
 
     @FXML
     void handleYes(ActionEvent event) {
         no.setSelected(false);
+        ast.setSelected(false);
+    }
+
+    @FXML
+    void handleAst(ActionEvent event) {
+        no.setSelected(false);
+        yes.setSelected(false);
     }
 
     @FXML
     void initialize() throws SQLException {
+        assert ast != null : "fx:id=\"ast\" was not injected: check your FXML file 'VoteReferendum.fxml'.";
         assert back != null : "fx:id=\"back\" was not injected: check your FXML file 'VoteReferendum.fxml'.";
         assert description != null
                 : "fx:id=\"description\" was not injected: check your FXML file 'VoteReferendum.fxml'.";

@@ -36,12 +36,11 @@ public class ReferendumDaoImpl extends SessionDaoImpl{
      */
     public void createReferendum(Referendum voto) throws SQLException{
         super.createSession(voto);
-        PreparedStatement prepStat = myConnection.prepareStatement("insert into referendum values(?,?,?,?,?);");
+        PreparedStatement prepStat = myConnection.prepareStatement("insert into referendum values(?,?,?,?);");
         prepStat.setString(1, voto.titolo);
         prepStat.setInt(2, 0);
         prepStat.setInt(3, 0);
         prepStat.setInt(4, 0);
-        prepStat.setBoolean(5, false);
         prepStat.executeUpdate();
     }
 
