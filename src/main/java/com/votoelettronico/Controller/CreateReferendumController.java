@@ -16,7 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class ReferendumController {
+public class CreateReferendumController {
 
     @FXML
     private ResourceBundle resources;
@@ -58,6 +58,7 @@ public class ReferendumController {
             tmp.createReferendum(voto);
             label.setText("CREATO");
         } catch (Exception e){
+            e.printStackTrace();
             label.setText("ERRORE");
         }
     }

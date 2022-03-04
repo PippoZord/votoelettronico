@@ -36,10 +36,12 @@ public class ReferendumDaoImpl extends SessionDaoImpl{
      */
     public void createReferendum(Referendum voto) throws SQLException{
         super.createSession(voto);
-        PreparedStatement prepStat = myConnection.prepareStatement("insert into Referendum values(?,?,?);");
+        PreparedStatement prepStat = myConnection.prepareStatement("insert into referendum values(?,?,?,?,?);");
         prepStat.setString(1, voto.titolo);
         prepStat.setInt(2, 0);
         prepStat.setInt(3, 0);
+        prepStat.setInt(4, 0);
+        prepStat.setBoolean(5, false);
         prepStat.executeUpdate();
     }
 
@@ -48,6 +50,7 @@ public class ReferendumDaoImpl extends SessionDaoImpl{
      * allora si fa votare l'Elettore accedendo alla tabella Referendum e si incrementa il contatore in base al voto: 
      * - Se voto.equals("SI") Referendum.si = Referendum.si + 1;
      * - Se voto.equals("NO") Referendum.si = Referendum.no + 1;
+     * - Se voto.equals("AST") Referendum.astenuti = Referendum.astenuti + 1;
      * - Altrimenti sollevo un eccezioni di tipo IllegalArgumentException 
      * 
      * 
@@ -61,12 +64,17 @@ public class ReferendumDaoImpl extends SessionDaoImpl{
         if (e instanceof Elettore) {
             Elettore el = (Elettore) e;
             if (voto.equals("SI") && !el.hasVoted()){
-                PreparedStatement prepStat = myConnection.prepareStatement("update Referendum set si = si+1 where titolo = ?;");
+                PreparedStatement prepStat = myConnection.prepareStatement("update referendum set si = si+1 where titolo = ?;");
                 prepStat.setString(1, this.getTitleActiveSession());
                 prepStat.executeUpdate();
                 el.vote();
             } else if (voto.equals("NO") && !el.hasVoted()){
-                PreparedStatement prepStat = myConnection.prepareStatement("update Referendum set no = no+1 where titolo = ?;");
+                PreparedStatement prepStat = myConnection.prepareStatement("update referendum set no = no+1 where titolo = ?;");
+                prepStat.setString(1, this.getTitleActiveSession());
+                prepStat.executeUpdate();
+                el.vote();
+            } else if (voto.equals("AST") && !el.hasVoted()){
+                PreparedStatement prepStat = myConnection.prepareStatement("update referendum set astenuti = astenuti+1 where titolo = ?;");
                 prepStat.setString(1, this.getTitleActiveSession());
                 prepStat.executeUpdate();
                 el.vote();

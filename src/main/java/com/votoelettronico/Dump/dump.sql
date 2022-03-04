@@ -35,6 +35,7 @@ create table if not exists referendum(
     titolo varchar(30) primary key,
     si int not null,
     no int not null,
+    astenuti int not null,
     quorum boolean not null,
     foreign key (titolo) references sessioni(titolo)
 );
@@ -62,5 +63,5 @@ insert into scrutinatori values('MZZSRA01A71D969X', 'SARA', 'MUZZI', 'F', '2001-
 'GE', 'ITA'
 );
 
-
-
+-- Sessioni di prova
+insert into sessioni values('Cannabis','vuoi legalizzare la cannabis?', '2022-03-04', '2022-03-05', 'Referendum');

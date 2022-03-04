@@ -110,7 +110,7 @@ public class UserDaoImpl implements UserDao{
     @Override
     public boolean hasVoted(Elettore e) throws SQLException {
         Objects.requireNonNull(e, "e Non può essere NULL");
-        PreparedStatement prepStat = myConnection.prepareStatement("select votato from elettore where codfiscale = ?;");
+        PreparedStatement prepStat = myConnection.prepareStatement("select votato from elettori where codfiscale = ?;");
         prepStat.setString(1, e.getCodFisc().getCodFisc());
         ResultSet set = prepStat.executeQuery();
         if (set.next() && set.getBoolean(1)==true){

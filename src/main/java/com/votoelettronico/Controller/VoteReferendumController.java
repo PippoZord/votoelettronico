@@ -62,6 +62,8 @@ public class VoteReferendumController {
                 r.insertVote("SI");
             else if (no.isSelected())
                 r.insertVote("NO");
+            else
+                r.insertVote("AST");
             Thread.sleep(500);
             message.setText("VOTAZIONE REGISTRATA");
             vote.setDisable(true); 
