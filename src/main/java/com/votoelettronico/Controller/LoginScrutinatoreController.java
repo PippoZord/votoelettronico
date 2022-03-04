@@ -53,12 +53,15 @@ public class LoginScrutinatoreController {
         try {
             UserDao u = new UserDaoImpl();
             Scrutinatore s = u.getScrutinatore(new CodFisc(username.getText().toUpperCase()));
-            if (!s.getPassword().equals(HashPassword))
+            if (!s.getPassword().equals(HashPassword)){
+                System.out.println(HashPassword.toString());
                 throw new IllegalArgumentException();
+                
+            }
             else
                 App.navigate("HomeViewScrutinatore");
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             labelError.setText("ERRORE");
         }
     }

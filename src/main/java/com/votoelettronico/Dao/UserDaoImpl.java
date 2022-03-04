@@ -31,20 +31,20 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public Elettore getElettore(CodFisc codFisc) throws SQLException {      
-        PreparedStatement prepStat = myConnection.prepareStatement("select * from Elettore where codFiscale = ?");
+        PreparedStatement prepStat = myConnection.prepareStatement("select * from elettori where codfiscale = ?");
         prepStat.setString(1, sqlEscapeInjection(codFisc.getCodFisc()));
         ResultSet myResultSet =  prepStat.executeQuery();
         myResultSet.next();
-        return new Elettore(myResultSet.getString("nome"), myResultSet.getString("cognome"), new CodFisc(myResultSet.getString("codFiscale")), myResultSet.getDate("data").toLocalDate(),myResultSet.getString("sex").charAt(0), myResultSet.getString("password"), myResultSet.getString("luogoDiNascita"),myResultSet.getString("nazione"), new Email(myResultSet.getString("email")), myResultSet.getString("telefono"), myResultSet.getBoolean("votato"));
+        return new Elettore(myResultSet.getString("nome"), myResultSet.getString("cognome"), new CodFisc(myResultSet.getString("codfiscale")), myResultSet.getDate("data").toLocalDate(),myResultSet.getString("sex").charAt(0), myResultSet.getString("password"), myResultSet.getString("luogonascita"),myResultSet.getString("nazione"), new Email(myResultSet.getString("email")), myResultSet.getString("telefono"), myResultSet.getBoolean("votato"));
     }
 
     @Override
     public Scrutinatore getScrutinatore(CodFisc codFisc) throws SQLException {
-        PreparedStatement prepStat = myConnection.prepareStatement("select * from Scrutinatore where codFiscale = ?");
+        PreparedStatement prepStat = myConnection.prepareStatement("select * from scrutinatori where codfiscale = ?");
         prepStat.setString(1, sqlEscapeInjection(codFisc.getCodFisc()));
         ResultSet myResultSet =  prepStat.executeQuery();
         myResultSet.next();
-        return new Scrutinatore(myResultSet.getString("nome"), myResultSet.getString("cognome"), new CodFisc(myResultSet.getString("codFiscale")), myResultSet.getDate("data").toLocalDate(), myResultSet.getString("sex").charAt(0), myResultSet.getString("nascita"), myResultSet.getString("nazione"), myResultSet.getString("password"));
+        return new Scrutinatore(myResultSet.getString("nome"), myResultSet.getString("cognome"), new CodFisc(myResultSet.getString("codfiscale")), myResultSet.getDate("data").toLocalDate(), myResultSet.getString("sex").charAt(0), myResultSet.getString("luogonascita"), myResultSet.getString("nazione"), myResultSet.getString("password"));
     }
     
     
@@ -84,7 +84,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public void insertElettore(Elettore e) throws SQLException {
-        PreparedStatement prepStat = myConnection.prepareStatement("insert into Elettore values(?,?,?,?,?,?,?,?,?,?,?)");
+        PreparedStatement prepStat = myConnection.prepareStatement("insert into elettori values(?,?,?,?,?,?,?,?,?,?,?)");
         prepStat.setString(1, e.getCodFisc().getCodFisc());
         prepStat.setString(2, e.getName());
         prepStat.setString(3, e.getSurname());
@@ -102,7 +102,7 @@ public class UserDaoImpl implements UserDao{
     @Override
     public void vote(Elettore e) throws SQLException{
         Objects.requireNonNull(e, "e non può essere NULL");
-        PreparedStatement prepStat = myConnection.prepareStatement("update Elettore set votato = 1 where codFiscale = ?;");
+        PreparedStatement prepStat = myConnection.prepareStatement("update elettori set votato = 1 where codfiscale = ?;");
         prepStat.setString(1, e.getCodFisc().getCodFisc());
         prepStat.executeUpdate();
     }
@@ -110,7 +110,7 @@ public class UserDaoImpl implements UserDao{
     @Override
     public boolean hasVoted(Elettore e) throws SQLException {
         Objects.requireNonNull(e, "e Non può essere NULL");
-        PreparedStatement prepStat = myConnection.prepareStatement("select votato from Elettore where codFiscale = ?;");
+        PreparedStatement prepStat = myConnection.prepareStatement("select votato from elettore where codfiscale = ?;");
         prepStat.setString(1, e.getCodFisc().getCodFisc());
         ResultSet set = prepStat.executeQuery();
         if (set.next() && set.getBoolean(1)==true){
