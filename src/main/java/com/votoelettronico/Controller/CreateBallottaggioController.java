@@ -1,7 +1,11 @@
 package com.votoelettronico.Controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.votoelettronico.App;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -58,8 +62,8 @@ public class CreateBallottaggioController {
     private TextField title;
 
     @FXML
-    void handleBack(ActionEvent event) {
-
+    void handleBack(ActionEvent event) throws IOException {
+        App.navigate("Session");
     }
 
     @FXML
