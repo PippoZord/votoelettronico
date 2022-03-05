@@ -40,6 +40,22 @@ create table if not exists referendum(
     foreign key (titolo) references sessioni(titolo)
 );
 
+create table if not exists partiti (
+    nome varchar(30),
+    sessione varchar(30) references sessioni(titolo),
+    voto int not null,
+    primary key(nome, sessione)    
+);
+
+create table if not exists candidati(
+    nome varchar(30),
+    cognome varchar(30),
+    partito varchar(30) references partiti(nome),
+    sessione varchar(30) references partiti(sessione),
+    voto int not null,
+    primary key(nome, cognome, partito, sessione)
+);
+
 -- elettori di prova
 insert into elettori values('FLPLNZ00M11F205W', 'LORENZO', 'FILIPPONI', 'M', '2000-08-11',  0, '77696c7a64e9bc7de8f7f65e22148af210e3a6204f877307f9c8df34220118ec', 
 'pippolor3@gmail.com', 'MI', '3663183309', 'ITA'
