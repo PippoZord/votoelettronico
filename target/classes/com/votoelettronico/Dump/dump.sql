@@ -28,8 +28,7 @@ create table if not exists sessioni(
     descrizione varchar(70) not null,
     inizio date not null,
     fine date not null,
-    tipo varchar(30),
-    quorum boolean not null
+    tipo varchar(30)
 );
 
 create table if not exists referendum(
@@ -37,6 +36,7 @@ create table if not exists referendum(
     si int not null,
     no int not null,
     astenuti int not null,
+    quorum boolean not null,
     foreign key (titolo) references sessioni(titolo)
 );
 

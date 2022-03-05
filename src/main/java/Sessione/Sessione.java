@@ -15,7 +15,7 @@ public abstract class Sessione {
     /**Inizio e fine della sessione: inizio < fine. fine e inizio != da null*/
     public final LocalDate inizio, fine; 
     /**true se la sessione ha bisogno del quorum false altrimenti*/
-    public final boolean quorum; 
+ 
 
 
     /**
@@ -31,22 +31,18 @@ public abstract class Sessione {
      *                    NullPointerException
      * @param fine        non NULL altrimenti sollevo un'eccezione di tipo
      *                    NullPointerException
-     * @param quorum        non NULL altrimenti sollevo un'eccezione di tipo
-     *                    NullPointerException
      */
-    public Sessione(String titolo, String descrizione, LocalDate inizio, LocalDate fine, boolean quorum){
+    public Sessione(String titolo, String descrizione, LocalDate inizio, LocalDate fine){
         Objects.requireNonNull(titolo, "titolo non può essere NULL");
         Objects.requireNonNull(descrizione, "descrizione non può essere NULL");
         Objects.requireNonNull(inizio, "inizio non può essere NULL");
         Objects.requireNonNull(fine, "fine non può essere NULL");
-        Objects.requireNonNull(quorum, "quorum non può essere NULL");
         if (!checkDate(inizio, fine))
             throw new IllegalArgumentException("inizio deve essere prima di fine");
         this.inizio = inizio;
         this.fine = fine;
         this.titolo = titolo;
         this.descrizione = descrizione;
-        this.quorum = quorum;
     }
     
     /**

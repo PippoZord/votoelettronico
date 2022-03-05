@@ -40,7 +40,7 @@ public class HomeViewScrutinatoreController {
 
     @FXML
     void handleExit(ActionEvent event) throws IOException {
-        App.navigate("LoginScrutinatore");
+        App.navigate("HomeView");
     }
 
     @FXML

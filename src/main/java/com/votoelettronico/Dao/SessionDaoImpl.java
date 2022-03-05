@@ -70,14 +70,13 @@ public class SessionDaoImpl {
     protected void createSession(Sessione sessione) throws SQLException {
         Objects.requireNonNull(sessione, "sessione non può Essere null");
         if (checkData(sessione)){
-            PreparedStatement prepStat = myConnection.prepareStatement("insert into sessioni values(?,?,?,?,?,?);");
+            PreparedStatement prepStat = myConnection.prepareStatement("insert into sessioni values(?,?,?,?,?);");
             prepStat.setString(1, sessione.titolo);
             prepStat.setString(2, sessione.descrizione);
             prepStat.setDate(3, Date.valueOf(sessione.inizio));
             prepStat.setDate(4, Date.valueOf(sessione.fine));
             if (sessione instanceof Referendum)
                 prepStat.setString(5, "Referendum");
-            prepStat.setBoolean(6, sessione.quorum);
             prepStat.executeUpdate();
         }
     }
@@ -96,7 +95,7 @@ public class SessionDaoImpl {
      */
     private boolean checkData(Sessione sessione) throws SQLException {
         Objects.requireNonNull(sessione, "sessione non può essere null");
-        PreparedStatement prepStat = myConnection.prepareStatement("select * from sessioni where ((inizio <= ? and fine >= ?) or (inizio <= ? and fine >= ?) or (inizio > ? and fine < ?));");
+        PreparedStatement prepStat = myConnection.prepareStatement("select * from sessioni where ((inizio < ? and fine > ?) or (inizio <= ? and fine >= ?) or (inizio > ? and fine < ?));");
         prepStat.setDate(1, Date.valueOf(sessione.inizio));
         prepStat.setDate(2, Date.valueOf(sessione.inizio));
         prepStat.setDate(3, Date.valueOf(sessione.fine));

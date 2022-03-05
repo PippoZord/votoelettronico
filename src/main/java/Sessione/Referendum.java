@@ -8,6 +8,8 @@ import java.time.LocalDate;
  */
 public class Referendum extends Sessione {
     
+
+    public final boolean quorum;
     /**
      * Istanzia il Referendum
      * 
@@ -19,9 +21,12 @@ public class Referendum extends Sessione {
      *                    NullPointerException (vedi super())
      * @param fine        non NULL altrimenti sollevo un'eccezione di tipo
      *                    NullPointerException (vedi super())
+     * @param quorum      non NULL altrimenti sollevo un'eccezione di tipo
+     *                    NullPointerException
      */
     public Referendum(String titolo, String descrizione, LocalDate inizio, LocalDate fine, boolean quorum) {
-        super(titolo, descrizione, inizio, fine, quorum);
+        super(titolo, descrizione, inizio, fine);
+        this.quorum = quorum;
     }
 
 }

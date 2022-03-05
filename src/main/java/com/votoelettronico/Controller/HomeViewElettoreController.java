@@ -37,7 +37,7 @@ public class HomeViewElettoreController {
 
     @FXML
     void handleExit(ActionEvent event) throws IOException {
-        App.navigate("LoginElettore");
+        App.navigate("HomeView");
     }
 
     @FXML
