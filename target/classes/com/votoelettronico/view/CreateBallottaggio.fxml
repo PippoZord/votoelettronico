@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.CreateReferendumController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.votoelettronico.Controller.CreateReferendumController">
    <top>
       <Label alignment="CENTER" prefHeight="100.0" prefWidth="1036.0" text="CREA BALLOTAGGIO" BorderPane.alignment="TOP_RIGHT">
          <font>
@@ -86,46 +86,70 @@
             </HBox>
             <HBox prefHeight="62.0" prefWidth="1036.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="62.0" prefWidth="298.0" text="1° PARTITO E CANDIDATO">
+                  <Label alignment="CENTER" prefHeight="62.0" prefWidth="131.0" text="1° PARTITO">
                      <font>
                         <Font size="19.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="160.0" />
+                        <Insets left="100.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="primoPartito">
+                  <TextField fx:id="primoPartito" prefHeight="24.0" prefWidth="155.0">
                      <HBox.margin>
                         <Insets top="20.0" />
                      </HBox.margin>
                   </TextField>
-                  <TextField fx:id="primoCandidato">
+                  <Label alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="204.0" text="NOME COGNOME">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="nome1" prefHeight="24.0" prefWidth="123.0">
                      <HBox.margin>
-                        <Insets left="50.0" top="20.0" />
+                        <Insets left="20.0" top="20.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <TextField fx:id="cognome1" prefHeight="24.0" prefWidth="123.0">
+                     <HBox.margin>
+                        <Insets left="20.0" top="20.0" />
                      </HBox.margin>
                   </TextField>
                </children>
             </HBox>
             <HBox prefHeight="62.0" prefWidth="1036.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="62.0" prefWidth="298.0" text="2° PARTITO E CANDIDATO">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="160.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="secondoPartito">
-                     <HBox.margin>
-                        <Insets top="20.0" />
-                     </HBox.margin>
-                  </TextField>
-                  <TextField fx:id="secondoCandidato">
-                     <HBox.margin>
-                        <Insets left="50.0" top="20.0" />
-                     </HBox.margin>
-                  </TextField>
+                  <HBox prefHeight="62.0" prefWidth="1036.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="62.0" prefWidth="131.0" text="2° PARTITO">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="100.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="secondoPartito" prefHeight="24.0" prefWidth="155.0">
+                           <HBox.margin>
+                              <Insets top="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label alignment="CENTER_RIGHT" prefHeight="62.0" prefWidth="204.0" text="NOME COGNOME">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="nome2" prefHeight="24.0" prefWidth="123.0">
+                           <HBox.margin>
+                              <Insets left="20.0" top="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <TextField fx:id="cognome2" prefHeight="24.0" prefWidth="123.0">
+                           <HBox.margin>
+                              <Insets left="20.0" top="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
                </children>
             </HBox>
          </children>
