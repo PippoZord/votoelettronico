@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import com.votoelettronico.Exception.DateException;
+import com.votoelettronico.Exception.PrimaryKeyException;
+
 import Sessione.Referendum;
 import Sessione.Sessione;
 
@@ -56,20 +59,26 @@ public class SessionDaoImpl {
         activeSession.next();
     }
 
-    //METODI
-
     /**
      * Dato voto crea una sessione all'interno della tabella 'Sessioni' associando i
      * valori di di 'sessione' ad ogni campo della tabella.
-     * Al campo tipo della tabella Sessioni associo una stringa in base al tipo di Sessione
+     * Al campo tipo della tabella Sessioni associo una stringa in base al tipo di
+     * Sessione
+     * /
+     * //METODI
+    
+     */
+    /**
      * 
-     * @param non può essere NULL altrimenti sollevo un'eccezione di tipo
-     *            NullPointerException
-     * @throws SQLException se ho un errore in accesso al DBMS
+     * @param sessione non NULL altrimenti sollevo un'eccezione di tipo NullPointerException.
+     *                 se la data di sessione si interseca con una data presente nel DBMS di qualsisasi altra sessione
+     *                 sollevo un eccezione di tipo DateException
+     * @throws SQLException se ho un'errore nel DBMS rifletto l'eccezione SQLException in PrimaryKeyException
      */
     protected void createSession(Sessione sessione) throws SQLException {
         Objects.requireNonNull(sessione, "sessione non può Essere null");
-        if (checkData(sessione)){
+        checkData(sessione);
+        try {
             PreparedStatement prepStat = myConnection.prepareStatement("insert into sessioni values(?,?,?,?,?);");
             prepStat.setString(1, sessione.titolo);
             prepStat.setString(2, sessione.descrizione);
@@ -78,6 +87,8 @@ public class SessionDaoImpl {
             if (sessione instanceof Referendum)
                 prepStat.setString(5, "Referendum");
             prepStat.executeUpdate();
+        } catch (Exception e){
+            throw new PrimaryKeyException();
         }
     }
     
@@ -88,27 +99,22 @@ public class SessionDaoImpl {
      * @param sessione non può essere NULLL altrimenti sollevo un'eccezione di tipo
      *                 NullPointerException
      * 
-     * @throws SQLExceptionnon se ho un'errore in accesso al DBMS
+     * @throws SQLExceptionnon se ho un'errore in accesso al DBMS o se la data si interseca con altre allora
+     *                         L'eccezione viene riflessa in una DateException
      * 
-     * @return false se la data impostata per sessione si sovrappone con almeno una
-     *         sessione all'interno della tabella 'Sessioni'. true altrimenti.
      */
-    private boolean checkData(Sessione sessione) throws SQLException {
-        try {
-            Objects.requireNonNull(sessione, "sessione non può essere null");
-            PreparedStatement prepStat = myConnection.prepareStatement(
-                    "select * from sessioni where ((inizio < ? and fine > ?) or (inizio < ? and fine > ?) or (inizio > ? and fine < ?));");
-            prepStat.setDate(1, Date.valueOf(sessione.inizio));
-            prepStat.setDate(2, Date.valueOf(sessione.inizio));
-            prepStat.setDate(3, Date.valueOf(sessione.fine));
-            prepStat.setDate(4, Date.valueOf(sessione.fine));
-            prepStat.setDate(5, Date.valueOf(sessione.inizio));
-            prepStat.setDate(6, Date.valueOf(sessione.fine));
-            ResultSet set = prepStat.executeQuery();
-            return !set.next();
-        } catch (Exception e) {
-            
-        }
+    private void checkData(Sessione sessione) throws SQLException {
+        Objects.requireNonNull(sessione, "sessione non può essere null");
+        PreparedStatement prepStat = myConnection.prepareStatement("select * from sessioni where ((inizio < ? and fine > ?) or (inizio < ? and fine > ?) or (inizio >= ? and fine <= ?));");
+        prepStat.setDate(1, Date.valueOf(sessione.inizio));
+        prepStat.setDate(2, Date.valueOf(sessione.inizio));
+        prepStat.setDate(3, Date.valueOf(sessione.fine));
+        prepStat.setDate(4, Date.valueOf(sessione.fine));
+        prepStat.setDate(5, Date.valueOf(sessione.inizio));
+        prepStat.setDate(6, Date.valueOf(sessione.fine));
+        ResultSet set = prepStat.executeQuery();
+        if (set.next())
+            throw new DateException();
     }
 
 

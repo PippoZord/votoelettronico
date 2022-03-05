@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import com.votoelettronico.App;
 import com.votoelettronico.Dao.ReferendumDaoImpl;
+import com.votoelettronico.Exception.DateException;
 
 import Sessione.Referendum;
 import javafx.event.ActionEvent;
@@ -62,8 +63,11 @@ public class CreateReferendumController {
             tmp.createReferendum(voto);
             label.setText("CREATO");
         } catch (Exception e){
-            e.printStackTrace();
-            label.setText("ERRORE");
+            if (e instanceof DateException)
+                label.setText("ERRORE DI DATA");
+            else
+                label.setText("TITOLO GIÀ INSERITO");
+            e.printStackTrace();    
         }
     }
 
