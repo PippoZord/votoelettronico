@@ -42,8 +42,8 @@ public class SessionController {
     }
 
     @FXML
-    void handleBallottaggio(ActionEvent event) {
-
+    void handleBallottaggio(ActionEvent event) throws IOException {
+        App.navigate("CreateBallottaggio");
     }
 
     @FXML

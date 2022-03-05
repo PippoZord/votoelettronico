@@ -43,7 +43,6 @@ public class App extends Application{
 
     public static void setUser(User u){
         user = u;
-        System.out.println(user);
     }
 
     public static User getUser(){
