@@ -29,6 +29,7 @@ public class ReferendumDaoImpl extends SessionDaoImpl{
     /**
      * Crea una sessione di voto invocando il metodo super.createSession(voto) e crea un referendum inserendo i parametri all'interno di 'Referednum'.
      * All'inizio il campo viene 'si' e 'no' vengono instaziati a 0;
+     * Se ho un errore di inserimento dei valori si solleva un eccezione descritta in super.createsession()
      * 
      * @param voto non NULL altrimenti sollevo un'eccezione di tipo
      *             NullPointerException (vedi super)

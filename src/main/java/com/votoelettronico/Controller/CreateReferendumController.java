@@ -66,8 +66,7 @@ public class CreateReferendumController {
             if (e instanceof DateException)
                 label.setText("ERRORE DI DATA");
             else
-                label.setText("TITOLO GIÀ INSERITO");
-            e.printStackTrace();    
+                label.setText("TITOLO GIÀ INSERITO");   
         }
     }
 
