@@ -94,17 +94,24 @@ public class SessionDaoImpl {
      *         sessione all'interno della tabella 'Sessioni'. true altrimenti.
      */
     private boolean checkData(Sessione sessione) throws SQLException {
-        Objects.requireNonNull(sessione, "sessione non può essere null");
-        PreparedStatement prepStat = myConnection.prepareStatement("select * from sessioni where ((inizio < ? and fine > ?) or (inizio <= ? and fine >= ?) or (inizio > ? and fine < ?));");
-        prepStat.setDate(1, Date.valueOf(sessione.inizio));
-        prepStat.setDate(2, Date.valueOf(sessione.inizio));
-        prepStat.setDate(3, Date.valueOf(sessione.fine));
-        prepStat.setDate(4, Date.valueOf(sessione.fine));
-        prepStat.setDate(5, Date.valueOf(sessione.inizio));
-        prepStat.setDate(6, Date.valueOf(sessione.fine));
-        ResultSet set = prepStat.executeQuery();
-        return !set.next();
+        try {
+            Objects.requireNonNull(sessione, "sessione non può essere null");
+            PreparedStatement prepStat = myConnection.prepareStatement(
+                    "select * from sessioni where ((inizio < ? and fine > ?) or (inizio < ? and fine > ?) or (inizio > ? and fine < ?));");
+            prepStat.setDate(1, Date.valueOf(sessione.inizio));
+            prepStat.setDate(2, Date.valueOf(sessione.inizio));
+            prepStat.setDate(3, Date.valueOf(sessione.fine));
+            prepStat.setDate(4, Date.valueOf(sessione.fine));
+            prepStat.setDate(5, Date.valueOf(sessione.inizio));
+            prepStat.setDate(6, Date.valueOf(sessione.fine));
+            ResultSet set = prepStat.executeQuery();
+            return !set.next();
+        } catch (Exception e) {
+            
+        }
     }
+
+
 
     /**
      * Se activeSession = NULL sollevo un'eccezione di tipo NullPointerException
